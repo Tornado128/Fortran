@@ -1,12 +1,12 @@
 PROGRAM code
 IMPLICIT NONE
 			!constant zero shear viscosity
-
+ 
 INTEGER, 	PARAMETER 				:: DP    = kind(1.0D0)
 INTEGER, 	PARAMETER 				:: DPC   = kind( (1.d0,1.d0) )
 REAL*8,  	PARAMETER 				:: SIZEB =50
 REAL*8,	  	PARAMETER 				:: ALPHA =-1.0
-INTEGER*8, 	PARAMETER 				:: GRIDX =64 
+INTEGER*8, 	PARAMETER 				:: GRIDX =64
 INTEGER*8, 	PARAMETER 				:: GRIDY =64
 INTEGER*8, 	PARAMETER 				:: stepN =45000
 INTEGER*8,	PARAMETER				:: TRACER=400
@@ -21,10 +21,10 @@ REAL*8,  	PARAMETER 				:: GAMM=1.0
 
 REAL*8,		PARAMETER				:: ZETA	 =0.8
 REAL*8,		PARAMETER				:: De	 =0.8
-                						
+
 INTEGER*8	, PARAMETER 				:: PW=1, PWnx=2, PWny=3, PWux=4, PWuy=5, PW2=6, PW3=7, PW4=8, pw5=9, pw6=10, pw7=11
-INTEGER*8	, PARAMETER				:: pw8=12, i8=13, psp=14, PSP3=15, PSP4=16, PSP5=17, PSP6=18 
-INTEGER*8	, PARAMETER 				:: H1=19, H2=20, H3=21, H4=22, H5=23, H6=24, I1=25, I2=26,I3=27,I4=28,I5=29,I6=30 
+INTEGER*8	, PARAMETER				:: pw8=12, i8=13, psp=14, PSP3=15, PSP4=16, PSP5=17, PSP6=18
+INTEGER*8	, PARAMETER 				:: H1=19, H2=20, H3=21, H4=22, H5=23, H6=24, I1=25, I2=26,I3=27,I4=28,I5=29,I6=30
 INTEGER*8	, PARAMETER				:: I7=31, i9=32, PSP1=33, PSP20=34, pwee1=35, pwee2=36, PSPPW=37
 INTEGER*8	, PARAMETER 				:: g1=38, g2=39, g3=40, g4=41, g5=42, g6=43, ghg=44, FGF=45, FGF1=46, FGF2=47
 INTEGER*8	, PARAMETER				:: FGF3=48, FGF4=49, FGF5=50, PSP2=51, kjk1=52, kjk2=53, maxim=54, W99=55
@@ -43,7 +43,7 @@ INTEGER*8 						   I, J, A, P, k, TIME, NUMER, kkk,za, L, W, auxi, time1, delTsa
 REAL(DP)	, DIMENSION(GRIDX,GRIDY,PHID)  		:: ERROR, delXPSI, delX2PSI, delYPSI, delY2PSI, delO2PSI, delOPSI
 REAL(DP)	, DIMENSION(GRIDX,GRIDY) 		:: SIGMAXY, SIGMAXX, SIGMAYY, CONC, ORIX, ORIY, ANG, delSIGMAY
 REAL(DP)	, DIMENSION(GRIDX,GRIDY) 		:: delSIGMAX, UXF, UYF , DELdotNCX, DELdotNCY, sigmaXYm, sigmaXXm, TAUpxyM, TAUpxxM
-REAL(DP)	, DIMENSION(GRIDX,GRIDY) 		:: TAUpXX, TAUpYY, TAUpXY, delTAUpXXx, delTAUpXYx, delTAUpYYx 
+REAL(DP)	, DIMENSION(GRIDX,GRIDY) 		:: TAUpXX, TAUpYY, TAUpXY, delTAUpXXx, delTAUpXYx, delTAUpYYx
 REAL(DP)	, DIMENSION(GRIDX,GRIDY) 		:: delTAUpXXy, delTAUpXYy, delTAUpYYy, ERRORtauP, UelongationX, UshearX
 REAL(DP)	, DIMENSION(MODES,MODES) 		:: sigmaxyF, concF
 REAL(DP)	, DIMENSION(INT( GRIDX/2 + 1),GRIDY) 	:: concFF, stressXXff, stressYYff, stressXYff, sigmaXYff, ORIXff, ORIYff
@@ -59,18 +59,18 @@ REAL(dp)	, DIMENSION(MODES) 			:: WAVEXX, WAVEYY
 REAL(DP)	, DIMENSION(TRACER,stepN+1)		:: Xtracer, Ytracer, UXtracer, UYtracer
 REAL(DP)	, DIMENSION(TRACER)		  	:: Xinitial, Yinitial
 REAL(DP)	, DIMENSION(TRACER,stepN+1)		:: XtracerNOp, YtracerNOp
-REAL(DP)	, DIMENSION(stepN/2)			:: MSD, Nsample 
+REAL(DP)	, DIMENSION(stepN/2)			:: MSD, Nsample
 
 
 REAL(DP)  						D1, D2, D3, D4, D5, D6, D7, D8, D9, FXY, ANGLE, Pphi, D11, D12, uDOTn, CONAV, &
 							delUxyV, delUv, delUdif, addPSI3
 REAL*8  						DA, CONTIN, wat, VEL, ENTROPY, ERRORM1, ERRORM2, nxyN
 REAL*8  						RAD, AAA, IPI, mixing, uSHEARdotELONG
-REAL(DP) 						X, Y, ERRORM, addPSI, addPSI1, addPSI2, addCON, addCON1, addCON2, POWER  
+REAL(DP) 						X, Y, ERRORM, addPSI, addPSI1, addPSI2, addCON, addCON1, addCON2, POWER
 REAL*8 							time_begin, time_end, time_begin1, time_end1, time_begin2, time_end2
-REAL*8							time_begin3, time_end3, elapsed, elapsed1, elapsed2, elapsed3 
+REAL*8							time_begin3, time_end3, elapsed, elapsed1, elapsed2, elapsed3
 REAL*8							dx, dy, posiX, posiY
-integer*8						nume, Xbelow, Ybelow, Xabove, Yabove, XXbelow, YYbelow, XXabove, YYabove 
+integer*8						nume, Xbelow, Ybelow, Xabove, Yabove, XXbelow, YYbelow, XXabove, YYabove
 
 REAL, DIMENSION(2) 					:: tarray
 REAL 							:: result
@@ -79,13 +79,13 @@ real(kind=8)						:: random
 integer(kind=4)						:: n
 INTEGER, DIMENSION(:), ALLOCATABLE :: seed
  CALL RANDOM_SEED(SIZE=n)
- ALLOCATE(seed(n)) 
+ ALLOCATE(seed(n))
 
  CALL 							   ETIME(tarray, result)
 ! print *, result
 ! print *, tarray(1)
 ! print *, tarray(2)
-print*, 'H=', ZETA,'     ', 'De=', De,'     ', 'Dr=', Dr,'     ', 'Dt=', Dt 
+print*, 'H=', ZETA,'     ', 'De=', De,'     ', 'Dr=', Dr,'     ', 'Dt=', Dt
 
  TAUpXX = 0
  TAUpYY = 0
@@ -113,7 +113,7 @@ DO P=1,MODES
 		D8=(TWOPI/4.0)*RAND()
 		DO I=1,GRIDX
 			X=(SIZEB/(GRIDX))*(I-1)
-		
+
 			DO J=1,GRIDY
 				Y  = (SIZEB/(GRIDY))*(J-1)
 
@@ -132,7 +132,7 @@ END DO
  !addPSI1=SUM(PSI)
  !PSI = PSI - addPSI1/(gridx*gridy*phid)
  !addPSI2=SUM(PSI)
- 
+
  PSI = PSI/TWOPI + 1.0/TWOPI
 
  CALL   	estimation(ALPHA, GRIDX, GRIDY, DELTAX, DELTAY, PHID, PSI, SIGMAXX, SIGMAYY, SIGMAXY, &
@@ -179,7 +179,7 @@ END DO
  OPEN(PSP3  ,	FILE='totalNXX.txt'   )
  OPEN(PSP4  ,	FILE='totalNYY.txt'   )
  OPEN(PSP5  ,	FILE='totalSIGMA.txt' )
- OPEN(PSP11  ,	FILE='totalSIGMAxx.txt' ) 
+ OPEN(PSP11  ,	FILE='totalSIGMAxx.txt' )
  OPEN(PSP6  ,	FILE='totalTRACE.txt' )
  OPEN(PSP9  ,	FILE='totalTAUXX.txt' )
  OPEN(PSP10  ,	FILE='totalTAUYY.txt' )
@@ -191,7 +191,7 @@ END DO
 
  OPEN(MAXIM ,	FILE='CHECKING.txt')
  OPEN(W13   ,   FILE='SIGMAXX3.txt')
- OPEN(W14   ,   FILE='SIGMAXX4.txt')			
+ OPEN(W14   ,   FILE='SIGMAXX4.txt')
  OPEN(W5    ,	FILE='TRACE1.txt')
  OPEN(W52   ,	FILE='TRACE2.txt')
  OPEN(W53   ,	FILE='TRACE3.txt')
@@ -213,14 +213,14 @@ END DO
  DO I=1, GRIDX
  	DO J=1, GRIDY
 
-		LToldrXX(I,J)=-TAUpXX(I,J)/(4.0*De) - delUXX(I,J)*ZETA/(2.0*De) 					
-		
+		LToldrXX(I,J)=-TAUpXX(I,J)/(4.0*De) - delUXX(I,J)*ZETA/(2.0*De)
+
 		convecXX(I,J)=-UXF(I,J)*delTAUpXXx(I,J)-UYF(I,J)*delTAUpXXy(I,J) + 2.0*TAUpXX(I,J)*delUXX(I,J)+ 2.0*TAUpXY(I,J)*delUYX(I,J)
 
 		LToldrXY(I,J)=-TAUpXY(I,J)/(4.0*De) - ( delUXY(I,J)+delUYX(I,J) )*ZETA/(4.0*De)
 
 		convecXY(I,J)=-delTAUpXYx(I,J)*UXF(I,J)-delTAUpXYy(I,J)*UYF(I,J) +TAUpXX(I,J)*delUXY(I,J) + delUYX(I,J)*TAUpYY(I,J)
-		
+
 		orientXX(I,J)=2.0*TAUpXX(I,J)*delUXX(I,J)+ 2.0*TAUpXY(I,J)*delUYX(I,J)
 		orientXY(I,J)=TAUpXX(I,J)*delUXY(I,J) + delUYX(I,J)*TAUpYY(I,J)
 
@@ -251,11 +251,11 @@ END DO
 		WRITE (kjk5,	*)	UshearX(I,J)
 		WRITE (kjk6,	*)	UelongationX(I,J)
 		WRITE (PSP11,	*)	SIGMAXX(I,J)
-		WRITE (PSP12,	*)	sigmaXYm(I,J) 
+		WRITE (PSP12,	*)	sigmaXYm(I,J)
 		WRITE (PSP13,	*)	sigmaXXm(I,J)
 		WRITE (PSP14,	*)	TAUpxyM(I,J)
 		WRITE (PSP15,	*)	TAUpxxM(I,J)
-		
+
 
  	END DO
  END DO
@@ -392,13 +392,13 @@ WRITE (PWEE1,*) sigmaXXff(13,13)  ,sigmaYYff(13,13),  sigmaXYff(13,13), concFF(1
 NUME=0
  DO I=1,sqrtTRACER
  	 DO J=1,sqrtTRACER
- 		NUME=NUME+1						! index for tracer 
+ 		NUME=NUME+1						! index for tracer
  		Xtracer(NUME,1)=(I-.50001)*(SIZEB-DELTAx)/sqrtTRACER	! initialization of the x-location of tracers
-		Ytracer(NUME,1)=(J-.50001)*(SIZEB-DELTAy)/sqrtTRACER	! initialization of the y-location of tracers	
- 
+		Ytracer(NUME,1)=(J-.50001)*(SIZEB-DELTAy)/sqrtTRACER	! initialization of the y-location of tracers
+
  		posiX=Xtracer(NUME,1)/  DELTAX				! the ranges of the index corresponds to their x-location
  		posiY=Ytracer(NUME,1)/  DELTAY				! the ranges of the index corresponds to their y-location
- 
+
  		Xbelow=floor(posiX)+1
  		Ybelow=floor(posiY)+1
  		Xabove=ceiling(posiX)+1
@@ -409,20 +409,20 @@ NUME=0
  				+(posiX-Xbelow)*(Yabove-posiY)*UXF(Xabove,Ybelow)/((Xabove-Xbelow)*(Yabove-Ybelow))	&
  				+(Xabove-posiX)*(posiY-Ybelow)*UXF(Xbelow,Yabove)/((Xabove-Xbelow)*(Yabove-Ybelow))	&
  				+(posiX-Xbelow)*(posiY-Ybelow)*UXF(Xabove,Yabove)/((Xabove-Xbelow)*(Yabove-Ybelow))
- 			
+
  		UYtracer(NUME,1)=(Xabove-posiX)*(Yabove-posiY)*UYF(Xbelow,Ybelow)/((Xabove-Xbelow)*(Yabove-Ybelow))	&
  				+(posiX-Xbelow)*(Yabove-posiY)*UYF(Xabove,Ybelow)/((Xabove-Xbelow)*(Yabove-Ybelow))	&
  				+(Xabove-posiX)*(posiY-Ybelow)*UYF(Xbelow,Yabove)/((Xabove-Xbelow)*(Yabove-Ybelow))	&
  				+(posiX-Xbelow)*(posiY-Ybelow)*UYF(Xabove,Yabove)/((Xabove-Xbelow)*(Yabove-Ybelow))
- 		
+
  		!WRITE (kjk3,*)	0, nume, Xtracer(NUME,1), Ytracer(NUME,1), UXtracer(NUME,1), UYtracer(NUME,1)
 
- 
+
  		!XtracerNOp(NUME)=Xtracer0(NUME)+UXtracer(NUME,1)*DELTAt
  		!YtracerNOp(NUME)=Ytracer0(NUME)+UYtracer(NUME,1)*DELTAt
- 
-		XtracerNOp(NUME,1)=Xtracer(NUME,1)		
-		YtracerNOp(NUME,1)=Ytracer(NUME,1)								
+
+		XtracerNOp(NUME,1)=Xtracer(NUME,1)
+		YtracerNOp(NUME,1)=Ytracer(NUME,1)
 
  		!if (Xtracer(NUME,1)>sizeb) then
  		!	dx=Xtracer(NUME,1)-sizeb
@@ -440,7 +440,7 @@ NUME=0
  		!	dy=Ytracer(NUME,1)
  		!	Ytracer(NUME,1)=sizeb+dy
  		!end if
- 				
+
  		!Xtracer0(NUME)=Xtracer(NUME,1)					! X position of tracers at t=1 will be used at t=2
 		!Ytracer0(NUME)=Ytracer(NUME,1)					! Y position of tracers at t=1 will be used at t=2
 
@@ -459,7 +459,7 @@ NUME=0
   OPEN(W7	,FILE='LNvsNLtaup.txt')
   OPEN(W99	,FILE='STRESS.txt')
 
- CALL CPU_TIME ( time_begin )  
+ CALL CPU_TIME ( time_begin )
  DO TIME=1, stepN
 	NUMER	=0
 	ERRORM	=1.0
@@ -484,27 +484,27 @@ NUME=0
 					-delTAUpXYx(I,J)*UXF(I,J) -delTAUpXYy(I,J)*UYF(I,J) +TAUpXXi(I,J)*delUXY(I,J) &
 					+ delUYX(I,J)*TAUpYYi(I,J)
 
-					TAUpXX1(I,J)=DELTAt*PPXX(I,J) + TAUpXXi(I,J)     
+					TAUpXX1(I,J)=DELTAt*PPXX(I,J) + TAUpXXi(I,J)
 					TAUpXX(I,J) =TAUpXX1(I,J)
 
-					TAUpYY1(I,J)=DELTAt*PPYY(I,J) + TAUpYYi(I,J)     
+					TAUpYY1(I,J)=DELTAt*PPYY(I,J) + TAUpYYi(I,J)
 					TAUpYY(I,J) =TAUpYY1(I,J)
 
-					TAUpXY1(I,J)=DELTAt*PPXY(I,J) + TAUpXYi(I,J)     
+					TAUpXY1(I,J)=DELTAt*PPXY(I,J) + TAUpXYi(I,J)
 					TAUpXY(I,J) =TAUpXY1(I,J)
 
 					DO A=1, PHID
 
 						PP(I,J,A) = 2.0*GAMM*( PSIi(I,J,A) ) * (     delUXX(I,J) * COS(4.0*PI*(A-1)/(PHID-1)) &
 						+ 0.5*( delUXY(I,J)+delUYX(I,J) ) * SIN(4.0*PI*(A-1)/(PHID-1))   )&
-						-( COS(2.0*PI*(A-1)/(PHID-1)) )*delXPSI(I,J,A) - ( SIN(2.0*PI*(A-1)/(PHID-1)) ) * delYPSI(I,J,A) & 
+						-( COS(2.0*PI*(A-1)/(PHID-1)) )*delXPSI(I,J,A) - ( SIN(2.0*PI*(A-1)/(PHID-1)) ) * delYPSI(I,J,A) &
 			   			+ Dt* delY2PSI(I,J,A) + Dt* delX2PSI(I,J,A) + Dr * delO2PSI(I,J,A) &
 					   	- UXF(I,J)*delXPSI(I,J,A) - UYF(I,J)*delYPSI(I,J,A) &
 						+ ( (SIN(2.0*PI*(A-1)/(PHID-1))) **2.0 ) * (delOPSI(I,J,A)*delUXY(I,J)) &
 						- ( (COS(2.0*PI*(A-1)/(PHID-1))) **2.0 ) * (delOPSI(I,J,A)*delUYX(I,J)) &
-						+ SIN(4.0*PI*(A-1)/(PHID-1))*delOPSI(I,J,A)*delUXX(I,J)			
+						+ SIN(4.0*PI*(A-1)/(PHID-1))*delOPSI(I,J,A)*delUXX(I,J)
 
-						PSI1(I,J,A)= DELTAt*PP(I,J,A) + PSIi(I,J,A)     
+						PSI1(I,J,A)= DELTAt*PP(I,J,A) + PSIi(I,J,A)
 
 						PSI(I,J,A) = PSI1(I,J,A)
 
@@ -537,13 +537,13 @@ NUME=0
 		!CONC=(CONC - (addCON1-gridx*gridy)/(gridx*gridy) )
 		CALL CPU_TIME ( time_end1 )
 		elapsed1 =elapsed1 + time_end1 - time_begin1
-	
-		CALL CPU_TIME ( time_begin1 ) 
+
+		CALL CPU_TIME ( time_begin1 )
 	 	DO I=1, GRIDX
 			DO J=1, GRIDY
 				kom(i,j)=0.0
-				LToldrXX(I,J)=  -TAUpXX(I,J)/(4.0*De) - delUXX(I,J)*ZETA/(2.0*De) 					
-		
+				LToldrXX(I,J)=  -TAUpXX(I,J)/(4.0*De) - delUXX(I,J)*ZETA/(2.0*De)
+
 				convecXX(I,J)=  -UXF(I,J)*delTAUpXXx(I,J)-UYF(I,J)*delTAUpXXy(I,J) + &
 						2.0*TAUpXX(I,J)*delUXX(I,J)+ 2.0*TAUpXY(I,J)*delUYX(I,J)
 
@@ -557,7 +557,7 @@ NUME=0
 
 				PPYY(I,J) =-TAUpYY(I,J)/(4.0*De) - delUYY(I,J)*ZETA/(2.0*De) 					&
 				- UYF(I,J)*delTAUpYYy(I,J)- UXF(I,J)*delTAUpYYx(I,J) + 2.0*TAUpYY(I,J)*delUYY(I,J) 		&
-				+ 2.0*TAUpXY(I,J)*delUXY(I,J) 
+				+ 2.0*TAUpXY(I,J)*delUXY(I,J)
 
 				PPXX(I,J) =-TAUpXX(I,J)/(4.0*De) - delUXX(I,J)*ZETA/(2.0*De) 					&
 				- UXF(I,J)*delTAUpXXx(I,J)- UYF(I,J)*delTAUpXXy(I,J) + 2.0*TAUpXX(I,J)*delUXX(I,J) 		&
@@ -567,37 +567,37 @@ NUME=0
 				-delTAUpXYx(I,J)*UXF(I,J) -delTAUpXYy(I,J)*UYF(I,J) +TAUpXX(I,J)*delUXY(I,J) 			&
 				+ delUYX(I,J)*TAUpYY(I,J)
 
-				TAUpXX1(I,J)=DELTAt*PPXX(I,J) + TAUpXXi(I,J)     
-				TAUpYY1(I,J)=DELTAt*PPYY(I,J) + TAUpYYi(I,J)     
-				TAUpXY1(I,J)=DELTAt*PPXY(I,J) + TAUpXYi(I,J)        
+				TAUpXX1(I,J)=DELTAt*PPXX(I,J) + TAUpXXi(I,J)
+				TAUpYY1(I,J)=DELTAt*PPYY(I,J) + TAUpYYi(I,J)
+				TAUpXY1(I,J)=DELTAt*PPXY(I,J) + TAUpXYi(I,J)
 
 				ERRORtauP(I,J) = 1.00000 * (  ABS( (TAUpXX1(I,J)-TAUpXX(I,J))/ TAUpXX1(I,J) ) + &
 					  	     	      ABS( (TAUpYY1(I,J)-TAUpYY(I,J))/ TAUpYY1(I,J) ) + &
 					       	              ABS( (TAUpXY1(I,J)-TAUpXY(I,J))/ TAUpXY1(I,J) ) )
 
-				TAUpXX(I,J)=TAUpXX1(I,J)     
-				TAUpYY(I,J)=TAUpYY1(I,J)     
-				TAUpXY(I,J)=TAUpXY1(I,J)          
+				TAUpXX(I,J)=TAUpXX1(I,J)
+				TAUpYY(I,J)=TAUpYY1(I,J)
+				TAUpXY(I,J)=TAUpXY1(I,J)
 
 				DO A=1, PHID
 
 					PPP(I,J,A) = 2.0*GAMM*( PSI(I,J,A) ) * (     delUXX(I,J) * COS(4.0*PI*(A-1)/(PHID-1)) &
 					+ 0.5*( delUXY(I,J)+delUYX(I,J) ) * SIN(4.0*PI*(A-1)/(PHID-1))   )&
-					-( COS(2.0*PI*(A-1)/(PHID-1)) )*delXPSI(I,J,A) - ( SIN(2.0*PI*(A-1)/(PHID-1)) ) * delYPSI(I,J,A) & 
+					-( COS(2.0*PI*(A-1)/(PHID-1)) )*delXPSI(I,J,A) - ( SIN(2.0*PI*(A-1)/(PHID-1)) ) * delYPSI(I,J,A) &
 		   			+ Dt* delY2PSI(I,J,A) + Dt* delX2PSI(I,J,A) + Dr * delO2PSI(I,J,A) &
 				   	- UXF(I,J)*delXPSI(I,J,A) - UYF(I,J)*delYPSI(I,J,A) &
 					+ ( SIN(2.0*PI*(A-1)/(PHID-1)) **2.0 ) * (delOPSI(I,J,A)*delUXY(I,J)) &
 					- ( COS(2.0*PI*(A-1)/(PHID-1)) **2.0 ) * (delOPSI(I,J,A)*delUYX(I,J)) &
 					+ SIN(4.0*PI*(A-1)/(PHID-1)) * delOPSI(I,J,A) * delUXX(I,J)
-					
+
 
 					PSI1(I,J,A)=DELTAt*PPP(I,J,A) + PSIi(I,J,A)
 
 					ERROR(I,J,A) = ABS( (PSI1(I,J,A)-PSI(I,J,A))/( PSI(I,J,A)-1.0/TWOPI ) )
 
 					PSI(I,J,A) = PSI1(I,J,A)
-					IF (A .LT. PHID) THEN 
-						DA=(2.0*PI)/(PHID-1)                                           
+					IF (A .LT. PHID) THEN
+						DA=(2.0*PI)/(PHID-1)
 						kom(I,J) = kom(I,J) + 										&
 							   0.5*ALPHA*( delUXX(I,J)*COS(4.0*PI*(A-1)/(PHID-1)) +			 		&
 					   		   0.5*(delUXY(I,J)+delUYX(I,J))*SIN(4.0*PI*(A-1)/(PHID-1)) )* PSI(I,J,A) *DA + 	&
@@ -665,10 +665,10 @@ NUME=0
 			XXabove=Xabove
 			YYabove=Yabove
 
-			if (XXabove > gridx) then 
+			if (XXabove > gridx) then
 				XXabove=1
 			end if
-			if (YYabove > gridy) then 
+			if (YYabove > gridy) then
 				YYabove=1
 			end if
 
@@ -677,7 +677,7 @@ NUME=0
 					     +(posiX-Xbelow)*(Yabove-posiY)*UXF(XXabove,YYbelow)/((Xabove-Xbelow)*(Yabove-Ybelow))	&
 					     +(Xabove-posiX)*(posiY-Ybelow)*UXF(XXbelow,YYabove)/((Xabove-Xbelow)*(Yabove-Ybelow))	&
 					     +(posiX-Xbelow)*(posiY-Ybelow)*UXF(XXabove,YYabove)/((Xabove-Xbelow)*(Yabove-Ybelow))
-			
+
 			UYtracer(NUME,time+1)=(Xabove-posiX)*(Yabove-posiY)*UYF(XXbelow,YYbelow)/((Xabove-Xbelow)*(Yabove-Ybelow))	&
 					     +(posiX-Xbelow)*(Yabove-posiY)*UYF(XXabove,YYbelow)/((Xabove-Xbelow)*(Yabove-Ybelow))	&
 					     +(Xabove-posiX)*(posiY-Ybelow)*UYF(XXbelow,YYabove)/((Xabove-Xbelow)*(Yabove-Ybelow))	&
@@ -701,30 +701,30 @@ NUME=0
 	     	,ORIYff, TRACEff, FNSCff, LToldrXX, LToldrXY, LToldrXXff, LToldrXYff  &
 		,CONVECxx, CONVECxy, CONVECxxFF, CONVECxyFF, orientXX, orientXY, orientXXff, orientXYff)
 
-	
+
 	IF (TIME .EQ. 1) THEN
 		DO A=1, PHID
 			WRITE (FGF2,*) PSI(GRIDX/4, GRIDY/2, A)
  		END DO
 	END IF
-	IF (TIME .EQ. stepN/3) THEN 
+	IF (TIME .EQ. stepN/3) THEN
 		DO A=1, PHID
 			WRITE (FGF3,*) PSI(GRIDX/4, GRIDY/2, A)
  		END DO
 	END IF
-	IF (TIME .EQ. 2*stepN/3) THEN 
+	IF (TIME .EQ. 2*stepN/3) THEN
 		DO A=1, PHID
 			WRITE (FGF4,*) PSI(GRIDX/4, GRIDY/2, A)
  		END DO
 	END IF
-	IF (TIME .EQ. stepN) THEN 
+	IF (TIME .EQ. stepN) THEN
 		DO A=1, PHID
 			WRITE (FGF5,*) PSI(GRIDX/4, GRIDY/2, A)
  		END DO
 	END IF
 
 	AUXI     = MOD(time,int(1/DELTAt)+1)
-	
+
 	IF ( AUXI .EQ. 0 ) THEN
 		time1=time1+1
 		uDOTn=0.0
@@ -758,7 +758,7 @@ NUME=0
 		WRITE (PSP20,*)  MAXVAL(ABS(contild)), MAXVAL(ABS(CONTINUITY))
 		write (sty, *) nxyN, vel, delUxyV, delUv, delUdif
 		write (kjk7,*) uSHEARdotELONG
-		
+
 		NUME=0
 		DO I=1,sqrtTRACER
 			DO J=1,sqrtTRACER
@@ -782,13 +782,13 @@ NUME=0
 				WRITE (kjk6,	*)	UelongationX(I,J)
 				WRITE (PSP9,    *)	TAUpXX(I,J)
 				WRITE (PSP10,	*)	TAUpYY(I,J)
-				WRITE (PSP12,	*)	sigmaXYm(I,J) 
+				WRITE (PSP12,	*)	sigmaXYm(I,J)
 				WRITE (PSP13,	*)	sigmaXXm(I,J)
 				WRITE (PSP14,	*)	TAUpxyM(I,J)
 				WRITE (PSP15,	*)	TAUpxxM(I,J)
 			END DO
 		END DO
-		
+
 		WRITE (KJK1,*) stressXXff(1,1)  ,stressYYff(1,1),  stressXYff(1,1)
 		WRITE (KJK1,*) stressXXff(2,1)  ,stressYYff(2,1),  stressXYff(2,1)
 		WRITE (KJK1,*) stressXXff(1,2)  ,stressYYff(1,2),  stressXYff(1,2)
@@ -920,16 +920,16 @@ NUME=0
 
 		WRITE (GHG,*) 	TIME1, MAXVAL(CONC), MINVAL(conc), VEL, MINVAL(TAUpXX+TAUpYY), MINVAL(TAUpXY), MINVAL(SIGMAXY),			&
 				MINVAL(TAUpXX), MINVAL(SIGMAXX), MINVAL(TAUpYY),  MINVAL(SIGMAYY)
-		
+
 		WRITE (W99,*)	MAXVAL(SIGMAXX-TAUpXX), MAXVAL(SIGMAYY-TAUpYY), MAXVAL(SIGMAXY-TAUpXY)					, 	&
-				MINVAL(SIGMAXX-TAUpXX), MINVAL(SIGMAYY-TAUpYY), MINVAL(SIGMAXY-TAUpXY)		
+				MINVAL(SIGMAXX-TAUpXX), MINVAL(SIGMAYY-TAUpYY), MINVAL(SIGMAXY-TAUpXY)
 
 		WRITE (W7, *) 	SUM(ABS(TAUpXY))/(GRIDX*GRIDY), SUM(ABS(SIGMAXY))/(GRIDX*GRIDY), 						&
 				SUM(ABS(TAUpXX))/(GRIDX*GRIDY), SUM(ABS(SIGMAXX))/(GRIDX*GRIDY),						&
 				SUM(ABS(TAUpYY))/(GRIDX*GRIDY), SUM(ABS(SIGMAYY))/(GRIDX*GRIDY)
-		
+
 		WRITE (W9, *)	TIME1, VEL, MAXVAL(SIGMAXY-TAUpXY), MINVAL(SIGMAXY-TAUpXY), MINVAL(CONC), MAXVAL(CONC)
-				 
+
 		!PRINT      *, 	TIME1, VEL, nxyN ,MAXVAL(SIGMAXY), MINVAL(SIGMAXY), MINVAL(CONC), MAXVAL(CONC), delUxyV/delUv, delUdif/delUv, &
 		!		delUdif, delUv
 
@@ -1047,7 +1047,7 @@ end do
  CLOSE (PW8)
  CLOSE (GHG)
  CLOSE (KJK1)
- 
+
  OPEN(PWnx,FILE='nx4.txt')
  OPEN(PWny,FILE='ny4.txt')
  OPEN(PW2 ,FILE='CONCENTRATION4.txt')
@@ -1082,7 +1082,7 @@ END DO
  CLOSE (i7)
  CLOSE (i8)
  CLOSE (i9)
- 
+
  CLOSE (h1)
  CLOSE (h2)
  CLOSE (h3)
@@ -1144,5 +1144,5 @@ END DO
  close (psp14)
  close (psp15)
  CALL CHDIR("/home/yaser/Desktop/RESEARCH/NonLinearDynamics/OldroydB2constant")
-		
+
 END PROGRAM CODE
